@@ -1,0 +1,9 @@
+{# purpose of this template: auto links index view #}
+{% extends routeArea == 'admin' ? 'MUAutoLinksModule::adminBase.html.twig' : 'MUAutoLinksModule::base.html.twig' %}
+{% block title __('Auto links') %}
+{% block admin_page_icon 'home' %}
+{% block content %}
+    <div class="muautolinksmodule-autolink muautolinksmodule-index">
+        <p>{{ __('Welcome to the auto link section of the Auto links application.') }}</p>
+    </div>
+{% endblock %}

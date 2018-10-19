@@ -1,0 +1,73 @@
+services:
+    # Helper services
+    mu_autolinks_module.collection_filter_helper:
+        class: MU\AutoLinksModule\Helper\CollectionFilterHelper
+        arguments:
+            - "@request_stack"
+            - "@mu_autolinks_module.permission_helper"
+            - "@zikula_users_module.current_user"
+            - "@=service('zikula_extensions_module.api.variable').get('MUAutoLinksModule', 'showOnlyOwnEntries', false)"
+    
+    mu_autolinks_module.controller_helper:
+        class: MU\AutoLinksModule\Helper\ControllerHelper
+        arguments:
+            - "@translator.default"
+            - "@request_stack"
+            - "@form.factory"
+            - "@zikula_extensions_module.api.variable"
+            - "@mu_autolinks_module.entity_factory"
+            - "@mu_autolinks_module.collection_filter_helper"
+            - "@mu_autolinks_module.permission_helper"
+            - "@mu_autolinks_module.model_helper"
+    
+    mu_autolinks_module.entity_display_helper:
+        class: MU\AutoLinksModule\Helper\EntityDisplayHelper
+        arguments:
+            - "@translator.default"
+            - "@mu_autolinks_module.listentries_helper"
+    
+    mu_autolinks_module.hook_helper:
+        class: MU\AutoLinksModule\Helper\HookHelper
+        arguments:
+            - "@hook_dispatcher"
+    
+    mu_autolinks_module.listentries_helper:
+        class: MU\AutoLinksModule\Helper\ListEntriesHelper
+        arguments:
+            - "@translator.default"
+    
+    mu_autolinks_module.model_helper:
+        class: MU\AutoLinksModule\Helper\ModelHelper
+        arguments:
+            - "@mu_autolinks_module.entity_factory"
+    
+    mu_autolinks_module.permission_helper:
+        class: MU\AutoLinksModule\Helper\PermissionHelper
+        arguments:
+            - "@service_container"
+            - "@request_stack"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_users_module.current_user"
+            - "@zikula_users_module.user_repository"
+    
+    mu_autolinks_module.view_helper:
+        class: MU\AutoLinksModule\Helper\ViewHelper
+        arguments:
+            - "@twig"
+            - "@twig.loader"
+            - "@request_stack"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_core.common.theme.pagevars"
+            - "@mu_autolinks_module.controller_helper"
+            - "@mu_autolinks_module.permission_helper"
+    
+    mu_autolinks_module.workflow_helper:
+        class: MU\AutoLinksModule\Helper\WorkflowHelper
+        arguments:
+            - "@translator.default"
+            - "@workflow.registry"
+            - "@logger"
+            - "@zikula_users_module.current_user"
+            - "@mu_autolinks_module.entity_factory"
+            - "@mu_autolinks_module.listentries_helper"
+            - "@mu_autolinks_module.permission_helper"

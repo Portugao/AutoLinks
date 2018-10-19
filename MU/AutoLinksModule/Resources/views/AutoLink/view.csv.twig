@@ -1,0 +1,9 @@
+{# purpose of this template: auto links view csv view #}
+{% spaceless %}"{{ __('Supported string') }}";"{{ __('Needed link') }}"
+{% endspaceless %}
+{% for autoLink in items %}
+
+{% spaceless %}
+    "{{ autoLink.supportedString }}";"{{ autoLink.neededLink }}"
+{% endspaceless %}
+{% endfor %}

@@ -1,0 +1,30 @@
+services:
+    mu_autolinks_module.hook_subscriber.filter_hooks.autolinks:
+        class: MU\AutoLinksModule\HookSubscriber\AutoLinkFilterHooksSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.muautolinksmodule.filter_hooks.autolinks' }
+
+    mu_autolinks_module.hook_subscriber.form_aware_hook.autolinks:
+        class: MU\AutoLinksModule\HookSubscriber\AutoLinkFormAwareHookSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.muautolinksmodule.form_aware_hook.autolinks' }
+
+    mu_autolinks_module.hook_subscriber.ui_hooks.autolinks:
+        class: MU\AutoLinksModule\HookSubscriber\AutoLinkUiHooksSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.muautolinksmodule.ui_hooks.autolinks' }
+
+    mu_autolinks_module.hook_provider.filter_hooks.provider:
+        class: MU\AutoLinksModule\HookProvider\FilterHooksProvider
+        arguments:
+            - "@translator.default"
+            - "@mu_autolinks_module.entity_factory"
+        tags:
+            - { name: zikula.hook_provider, areaName: 'provider.muautolinksmodule.filter_hooks.autolinks' }
+

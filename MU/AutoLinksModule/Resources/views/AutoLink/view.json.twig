@@ -1,0 +1,7 @@
+{# purpose of this template: auto links view json view #}
+[
+{% for autoLink in items %}
+    {% if not loop.first %},{% endif %}
+    {{ autoLink.toArray()|json_encode()|raw }}
+{% endfor %}
+]

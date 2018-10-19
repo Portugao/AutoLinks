@@ -1,0 +1,12 @@
+services:
+    # Entity factory
+    mu_autolinks_module.entity_factory:
+        class: MU\AutoLinksModule\Entity\Factory\EntityFactory
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+            - "@mu_autolinks_module.entity_initialiser"
+            - "@mu_autolinks_module.collection_filter_helper"
+    
+    # Entity initialiser
+    mu_autolinks_module.entity_initialiser:
+        class: MU\AutoLinksModule\Entity\Factory\EntityInitialiser

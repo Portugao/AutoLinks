@@ -1,0 +1,48 @@
+services:
+    # Form types
+    
+    mu_autolinks_module.form.type.autolinkquicknav:
+        class: MU\AutoLinksModule\Form\Type\QuickNavigation\AutoLinkQuickNavType
+        arguments:
+            - "@translator.default"
+            - "@mu_autolinks_module.listentries_helper"
+        tags: ['form.type']
+    
+    mu_autolinks_module.form.handler.common:
+        abstract: true
+        arguments:
+            - "@kernel"
+            - "@translator.default"
+            - "@form.factory"
+            - "@request_stack"
+            - "@router"
+            - "@logger"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_users_module.current_user"
+            - "@mu_autolinks_module.entity_factory"
+            - "@mu_autolinks_module.controller_helper"
+            - "@mu_autolinks_module.model_helper"
+            - "@mu_autolinks_module.permission_helper"
+            - "@mu_autolinks_module.workflow_helper"
+            - "@mu_autolinks_module.hook_helper"
+        calls:
+            - [setLockingApi, ["@?zikula_pagelock_module.api.locking"]]
+    
+    
+    mu_autolinks_module.form.handler.autolink:
+        class: MU\AutoLinksModule\Form\Handler\AutoLink\EditHandler
+        parent: mu_autolinks_module.form.handler.common
+    
+    mu_autolinks_module.form.type.autolink:
+        class: MU\AutoLinksModule\Form\Type\AutoLinkType
+        arguments:
+            - "@translator.default"
+            - "@mu_autolinks_module.entity_factory"
+            - "@mu_autolinks_module.listentries_helper"
+        tags: ['form.type']
+    
+    mu_autolinks_module.form.type.config:
+        class: MU\AutoLinksModule\Form\Type\ConfigType
+        arguments:
+            - "@translator.default"
+        tags: ['form.type']

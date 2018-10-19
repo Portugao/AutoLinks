@@ -1,0 +1,9 @@
+{# purpose of this template: auto links view xml view #}
+<?xml version="1.0" encoding="{{ pageGetVar('meta.charset') }}" ?>
+<autoLinks>
+{% for autoLink in items %}
+    {{ include('@MUAutoLinksModule/AutoLink/include.xml.twig') }}
+{% else %}
+    <noAutoLink />
+{% endfor %}
+</autoLinks>

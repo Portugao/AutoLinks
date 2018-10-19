@@ -1,0 +1,39 @@
+application "AutoLinks" {
+    vendor "MU"
+    author "Michael Ueberschaer"
+    email "info@homepages-mit-zikula.de"
+    url "https://homepages-mit-zikula.de"
+    prefix "autolinks"
+    generateAccountApi false
+    generateSearchApi false
+    generateListBlock false
+    generateDetailBlock false
+    generateModerationBlock false
+    generateListContentType false
+    generateDetailContentType false
+    generateModerationPanel false
+    generatePendingContentSupport false
+    generateExternalControllerAndFinder false
+    generateScribitePlugins false
+    filterHookProvider ENABLED
+    versionAllGeneratedFiles false
+    generateTests false
+    generateTechnicalDocumentation false
+    entities {
+        entity "autoLink" leading {
+            nameMultiple "autoLinks"
+            displayPattern "#supportedString#"
+            fields {
+                string "supportedString",
+                string "neededLink"
+            }
+            actions {
+                mainAction "Index",
+                viewAction "View",
+                editAction "Edit"
+            ,
+                deleteAction "Delete"
+            }
+        }
+    }
+    }

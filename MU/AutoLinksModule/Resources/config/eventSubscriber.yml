@@ -1,0 +1,66 @@
+services:
+    # Event subscribers and listeners
+    mu_autolinks_module.entity_lifecycle_listener:
+        class: MU\AutoLinksModule\Listener\EntityLifecycleListener
+        arguments:
+            - "@service_container"
+            - "@event_dispatcher"
+            - "@logger"
+        tags: ['doctrine.event_subscriber']
+    
+    mu_autolinks_module.kernel_listener:
+        class: MU\AutoLinksModule\Listener\KernelListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_autolinks_module.installer_listener:
+        class: MU\AutoLinksModule\Listener\InstallerListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_autolinks_module.moduledispatch_listener:
+        class: MU\AutoLinksModule\Listener\ModuleDispatchListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_autolinks_module.mailer_listener:
+        class: MU\AutoLinksModule\Listener\MailerListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_autolinks_module.theme_listener:
+        class: MU\AutoLinksModule\Listener\ThemeListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_autolinks_module.userlogin_listener:
+        class: MU\AutoLinksModule\Listener\UserLoginListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_autolinks_module.userlogout_listener:
+        class: MU\AutoLinksModule\Listener\UserLogoutListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_autolinks_module.user_listener:
+        class: MU\AutoLinksModule\Listener\UserListener
+        arguments:
+            - "@translator.default"
+            - "@mu_autolinks_module.entity_factory"
+            - "@zikula_users_module.current_user"
+            - "@logger"
+        tags: ['kernel.event_subscriber']
+    
+    mu_autolinks_module.userregistration_listener:
+        class: MU\AutoLinksModule\Listener\UserRegistrationListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_autolinks_module.users_listener:
+        class: MU\AutoLinksModule\Listener\UsersListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_autolinks_module.group_listener:
+        class: MU\AutoLinksModule\Listener\GroupListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_autolinks_module.workflow_events_listener:
+        class: MU\AutoLinksModule\Listener\WorkflowEventsListener
+        arguments:
+            - "@mu_autolinks_module.entity_factory"
+            - "@mu_autolinks_module.permission_helper"
+        tags: ['kernel.event_subscriber']
+    
