@@ -50,7 +50,7 @@ class FilterHooksProvider extends AbstractFilterHooksProvider
         $linkRepository = $this->entityFactory->getRepository('autoLink');
         $autoLinks = $linkRepository->findAll();
         foreach ($autoLinks as $autoLink) {
-            $content = str_replace($autoLink['supportedString'], '<a href="' . $autoLink['neededLink'] . '">' . $autoLink['supportedString'] . '</a>*', $content);
+            $content = str_replace('#' . $autoLink['supportedString'] . '#', '<a href="' . $autoLink['neededLink'] . '">' . ' ' . $autoLink['supportedString'] . '</a>*', $content);
         }
         $hook->setData($content);
     }
