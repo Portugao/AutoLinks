@@ -74,6 +74,7 @@ abstract class AbstractAutoLinkQuickNavType extends AbstractType
         $this->addSearchField($builder, $options);
         $this->addSortingFields($builder, $options);
         $this->addAmountField($builder, $options);
+        $this->addBooleanFields($builder, $options);
         $builder->add('updateview', SubmitType::class, [
             'label' => $this->__('OK'),
             'attr' => [
@@ -147,6 +148,8 @@ abstract class AbstractAutoLinkQuickNavType extends AbstractType
                 'choices' =>             [
                     $this->__('Supported string') => 'supportedString',
                     $this->__('Needed link') => 'neededLink',
+                    $this->__('Description for link') => 'descriptionForLink',
+                    $this->__('Set asterisk') => 'setAsterisk',
                     $this->__('Creation date') => 'createdDate',
                     $this->__('Creator') => 'createdBy',
                     $this->__('Update date') => 'updatedDate',
@@ -196,6 +199,28 @@ abstract class AbstractAutoLinkQuickNavType extends AbstractType
             ],
             'required' => false,
             'expanded' => false
+        ]);
+    }
+
+    /**
+     * Adds boolean fields.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array                $options The options
+     */
+    public function addBooleanFields(FormBuilderInterface $builder, array $options = [])
+    {
+        $builder->add('setAsterisk', ChoiceType::class, [
+            'label' => $this->__('Set asterisk'),
+            'attr' => [
+                'class' => 'input-sm'
+            ],
+            'required' => false,
+            'placeholder' => $this->__('All'),
+            'choices' => [
+                $this->__('No') => 'no',
+                $this->__('Yes') => 'yes'
+            ]
         ]);
     }
 

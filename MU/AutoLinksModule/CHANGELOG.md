@@ -1,3 +1,3 @@
 # CHANGELOG
 
-Changes in MUAutoLinksModule 1.0.0
+Changes in MUAutoLinksModule 1.0.1

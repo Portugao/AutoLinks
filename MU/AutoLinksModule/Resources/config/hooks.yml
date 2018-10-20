@@ -25,6 +25,7 @@ services:
         arguments:
             - "@translator.default"
             - "@mu_autolinks_module.entity_factory"
+            - "@zikula_extensions_module.api.variable"
         tags:
             - { name: zikula.hook_provider, areaName: 'provider.muautolinksmodule.filter_hooks.autolinks' }
 

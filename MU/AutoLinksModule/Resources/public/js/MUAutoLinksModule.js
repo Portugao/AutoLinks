@@ -30,6 +30,53 @@ function mUAutoLinksInitQuickNavigation() {
 }
 
 /**
+ * Toggles a certain flag for a given item.
+ */
+function mUAutoLinksToggleFlag(objectType, fieldName, itemId) {
+    jQuery.ajax({
+        method: 'POST',
+        url: Routing.generate('muautolinksmodule_ajax_toggleflag'),
+        data: {
+            ot: objectType,
+            field: fieldName,
+            id: itemId
+        },
+        success: function (data) {
+            var idSuffix;
+            var toggleLink;
+
+            idSuffix = mUAutoLinksCapitaliseFirstLetter(fieldName) + itemId;
+            toggleLink = jQuery('#toggle' + idSuffix);
+
+            /*if (data.message) {
+                mUAutoLinksSimpleAlert(toggleLink, Translator.__('Success'), data.message, 'toggle' + idSuffix + 'DoneAlert', 'success');
+            }*/
+
+            toggleLink.find('.fa-check').toggleClass('hidden', true !== data.state);
+            toggleLink.find('.fa-times').toggleClass('hidden', true === data.state);
+        }
+    });
+}
+
+/**
+ * Initialise ajax-based toggle for all affected boolean fields on the current page.
+ */
+function mUAutoLinksInitAjaxToggles() {
+    jQuery('.muautolinks-ajax-toggle').click(function (event) {
+        var objectType;
+        var fieldName;
+        var itemId;
+
+        event.preventDefault();
+        objectType = jQuery(this).data('object-type');
+        fieldName = jQuery(this).data('field-name');
+        itemId = jQuery(this).data('item-id');
+
+        mUAutoLinksToggleFlag(objectType, fieldName, itemId);
+    }).removeClass('hidden');
+}
+
+/**
  * Simulates a simple alert using bootstrap.
  */
 function mUAutoLinksSimpleAlert(anchorElement, title, content, alertId, cssClass) {
@@ -102,7 +149,9 @@ jQuery(document).ready(function () {
         mUAutoLinksInitQuickNavigation();
         mUAutoLinksInitMassToggle();
         mUAutoLinksInitItemActions('view');
+        mUAutoLinksInitAjaxToggles();
     } else if (isDisplayPage) {
         mUAutoLinksInitItemActions('display');
+        mUAutoLinksInitAjaxToggles();
     }
 });

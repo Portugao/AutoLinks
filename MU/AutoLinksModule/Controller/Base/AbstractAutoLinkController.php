@@ -144,6 +144,8 @@ abstract class AbstractAutoLinkController extends AbstractController
         $sortableColumns->addColumns([
             new Column('supportedString'),
             new Column('neededLink'),
+            new Column('descriptionForLink'),
+            new Column('setAsterisk'),
             new Column('createdBy'),
             new Column('createdDate'),
             new Column('updatedBy'),

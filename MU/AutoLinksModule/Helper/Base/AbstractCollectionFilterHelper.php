@@ -139,6 +139,7 @@ abstract class AbstractCollectionFilterHelper
     
         $parameters['workflowState'] = $request->query->get('workflowState', '');
         $parameters['q'] = $request->query->get('q', '');
+        $parameters['setAsterisk'] = $request->query->get('setAsterisk', '');
     
         return $parameters;
     }
@@ -169,6 +170,14 @@ abstract class AbstractCollectionFilterHelper
                     $qb = $this->addSearchFilter('autoLink', $qb, $v);
                 }
                 continue;
+            }
+            if (in_array($k, ['setAsterisk'])) {
+                // boolean filter
+                if ($v == 'no') {
+                    $qb->andWhere('tbl.' . $k . ' = 0');
+                } elseif ($v == 'yes' || $v == '1') {
+                    $qb->andWhere('tbl.' . $k . ' = 1');
+                }
             }
     
             if (is_array($v)) {
@@ -254,6 +263,8 @@ abstract class AbstractCollectionFilterHelper
             $parameters['searchSupportedString'] = '%' . $fragment . '%';
             $filters[] = 'tbl.neededLink LIKE :searchNeededLink';
             $parameters['searchNeededLink'] = '%' . $fragment . '%';
+            $filters[] = 'tbl.descriptionForLink LIKE :searchDescriptionForLink';
+            $parameters['searchDescriptionForLink'] = '%' . $fragment . '%';
         }
     
         $qb->andWhere('(' . implode(' OR ', $filters) . ')');

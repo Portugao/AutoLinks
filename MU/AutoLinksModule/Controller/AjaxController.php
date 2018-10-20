@@ -16,6 +16,7 @@ use MU\AutoLinksModule\Controller\Base\AbstractAjaxController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Ajax controller implementation class.
@@ -24,6 +25,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AjaxController extends AbstractAjaxController
 {
+    
+    /**
+     * @inheritDoc
+     * @Route("/toggleFlag", methods = {"POST"}, options={"expose"=true})
+     */
+    public function toggleFlagAction(Request $request)
+    {
+        return parent::toggleFlagAction($request);
+    }
 
     // feel free to add your own ajax controller methods here
 }

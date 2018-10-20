@@ -13,6 +13,7 @@
 namespace MU\AutoLinksModule\Form\Type\Base;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
@@ -111,6 +112,26 @@ abstract class AbstractAutoLinkType extends AbstractType
                 'title' => $this->__('Enter the needed link of the auto link.')
             ],
             'required' => true,
+        ]);
+        
+        $builder->add('descriptionForLink', TextType::class, [
+            'label' => $this->__('Description for link') . ':',
+            'empty_data' => '',
+            'attr' => [
+                'maxlength' => 255,
+                'class' => '',
+                'title' => $this->__('Enter the description for link of the auto link.')
+            ],
+            'required' => false,
+        ]);
+        
+        $builder->add('setAsterisk', CheckboxType::class, [
+            'label' => $this->__('Set asterisk') . ':',
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('set asterisk ?')
+            ],
+            'required' => false,
         ]);
     }
 

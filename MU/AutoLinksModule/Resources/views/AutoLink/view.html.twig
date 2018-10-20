@@ -22,6 +22,8 @@
                 <col id="cItemActionsStart" />
                 <col id="cSupportedString" />
                 <col id="cNeededLink" />
+                <col id="cDescriptionForLink" />
+                <col id="cSetAsterisk" />
             </colgroup>
             <thead>
             <tr>
@@ -36,6 +38,12 @@
                 </th>
                 <th id="hNeededLink" scope="col" class="text-left">
                     <a href="{{ sort.neededLink.url }}" title="{{ __f('Sort by %s', {'%s': 'needed link'}) }}" class="{{ sort.neededLink.class }}">{{ __('Needed link') }}</a>
+                </th>
+                <th id="hDescriptionForLink" scope="col" class="text-left">
+                    <a href="{{ sort.descriptionForLink.url }}" title="{{ __f('Sort by %s', {'%s': 'description for link'}) }}" class="{{ sort.descriptionForLink.class }}">{{ __('Description for link') }}</a>
+                </th>
+                <th id="hSetAsterisk" scope="col" class="text-center">
+                    <a href="{{ sort.setAsterisk.url }}" title="{{ __f('Sort by %s', {'%s': 'set asterisk'}) }}" class="{{ sort.setAsterisk.class }}">{{ __('Set asterisk') }}</a>
                 </th>
             </tr>
             </thead>
@@ -61,10 +69,27 @@
                 <td headers="hNeededLink" class="text-left">
                     {{ autoLink.neededLink }}
                 </td>
+                <td headers="hDescriptionForLink" class="text-left">
+                    {{ autoLink.descriptionForLink }}
+                </td>
+                <td headers="hSetAsterisk" class="text-center">
+                    {% set itemId = autoLink.getKey() %}
+                    <a id="toggleSetAsterisk{{ itemId }}" href="javascript:void(0);" class="muautolinks-ajax-toggle hidden" data-object-type="autoLink" data-field-name="setAsterisk" data-item-id="{{ itemId }}">
+                        <i class="fa fa-check text-success{% if not autoLink.setAsterisk %} hidden{% endif %}" id="yesSetAsterisk{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}"></i>
+                        <i class="fa fa-times text-danger{% if autoLink.setAsterisk %} hidden{% endif %}" id="noSetAsterisk{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}"></i>
+                    </a>
+                    <noscript><div id="noscriptSetAsterisk{{ itemId }}">
+                        {% if autoLink.setAsterisk %}
+                            <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
+                        {% else %}
+                            <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
+                        {% endif %}
+                    </div></noscript>
+                </td>
             </tr>
         {% else %}
             <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
-                <td class="text-left" colspan="{% if routeArea == 'admin' %}4{% else %}3{% endif %}">
+                <td class="text-left" colspan="{% if routeArea == 'admin' %}6{% else %}5{% endif %}">
             {{ __('No auto links found.') }}
               </td>
             </tr>

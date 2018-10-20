@@ -57,6 +57,8 @@ abstract class AbstractAutoLinkRepository extends EntityRepository
         return [
             'supportedString',
             'neededLink',
+            'descriptionForLink',
+            'setAsterisk',
             'createdBy',
             'createdDate',
             'updatedBy',

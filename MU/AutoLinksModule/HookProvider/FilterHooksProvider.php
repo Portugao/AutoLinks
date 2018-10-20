@@ -17,6 +17,7 @@ use MU\AutoLinksModule\HookProvider\Base\AbstractFilterHooksProvider;
 
 use MU\AutoLinksModule\Entity\Factory\EntityFactory;
 use Zikula\Common\Translator\TranslatorInterface;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 
 /**
  * Implementation class for filter hooks provider.
@@ -29,15 +30,26 @@ class FilterHooksProvider extends AbstractFilterHooksProvider
     protected $entityFactory;
     
     /**
+     * @var VariableApiInterface
+     */
+    protected $variableApi;
+    
+    /**
      * FilterHooksProvider constructor.
      *
      * @param TranslatorInterface $translator
+     * @param EntityFactory $entityFactory
+     * @param VariableApiInterface $variableApi      VariableApi service instance
      */
-    public function __construct(TranslatorInterface $translator,
-        EntityFactory $entityFactory)
+    public function __construct(
+        TranslatorInterface $translator,
+        EntityFactory $entityFactory,
+        VariableApiInterface $variableApi
+        )
     {
         $this->translator = $translator;
         $this->entityFactory = $entityFactory;
+        $this->variableApi = $variableApi;
     }
     
     /**
@@ -50,13 +62,23 @@ class FilterHooksProvider extends AbstractFilterHooksProvider
         $linkRepository = $this->entityFactory->getRepository('autoLink');
         $autoLinks = $linkRepository->findAll();
         foreach ($autoLinks as $autoLink) {
-            $content = str_replace('#' . $autoLink['supportedString'] . '#', '<a href="' . $autoLink['neededLink'] . '">' . ' ' . $autoLink['supportedString'] . '</a>*', $content);
+            $setAsterisk = $autoLink['setAsterisk'];
+            if ($setAsterisk == 1) {
+                $asterisk = '*';
+            } else {
+                $asterisk = '';
+            }
+            $content = str_replace('#' . $autoLink['supportedString'] . '#', '<a title="' . $autoLink['descriptionForLink'] . '" href="' . $autoLink['neededLink'] . '">' . ' ' . $autoLink['supportedString'] . '</a>' . $asterisk, $content);
         }
         $hook->setData($content);
     }
     
     protected function setEntityFactory(EntityFactory $entityFactory) {
         $this->entityFactory = $entityFactory;
+    }
+    
+    protected function setVariableApi(VariableApiInterface $variableApi) {
+        $this->variableApi = $variableApi;
     }
 
     // feel free to add your own convenience methods here

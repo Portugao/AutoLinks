@@ -40,6 +40,13 @@
             {% if pageSizeSelector is defined and pageSizeSelector != true %}
                 </div>
             {% endif %}
+            {% if setAsteriskFilter is defined and setAsteriskFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.setAsterisk) }}
+            {% if setAsteriskFilter is defined and setAsteriskFilter != true %}
+                </div>
+            {% endif %}
             {{ form_widget(quickNavForm.updateview) }}
         </fieldset>
     </div>

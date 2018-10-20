@@ -151,37 +151,10 @@ abstract class AbstractViewHelper
         $response = null;
         if (true === $raw) {
             // standalone output
-            if ($templateExtension == 'csv.twig') {
-                // convert to UTF-16 for improved excel compatibility
-                // see http://stackoverflow.com/questions/4348802/how-can-i-output-a-utf-8-csv-in-php-that-excel-will-read-properly
-                $output = chr(255) . chr(254) . mb_convert_encoding($output, 'UTF-16LE', 'UTF-8');
-            }
-    
             $response = new PlainResponse($output);
         } else {
             // normal output
             $response = new Response($output);
-        }
-    
-        // check if we need to set any custom headers
-        switch ($templateExtension) {
-            case 'csv.twig':
-                $response->headers->set('Content-Encoding', 'UTF-8');
-                $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
-                $response->headers->set('Content-Disposition', 'attachment; filename=' . $type . '-list.csv');
-                break;
-            case 'json.twig':
-                $response->headers->set('Content-Type', 'application/json');
-                break;
-            case 'xml.twig':
-                $response->headers->set('Content-Type', 'text/xml');
-                break;
-            case 'atom.twig':
-                $response->headers->set('Content-Type', 'application/atom+xml');
-                break;
-            case 'rss.twig':
-                $response->headers->set('Content-Type', 'application/rss+xml');
-                break;
         }
     
         return $response;
@@ -225,9 +198,9 @@ abstract class AbstractViewHelper
         $hasAdminAccess = $this->permissionHelper->hasComponentPermission($type, ACCESS_ADMIN);
         if ($func == 'view') {
             if ($hasAdminAccess) {
-                $extensions = ['csv', 'rss', 'atom', 'xml', 'json'];
+                $extensions = [];
             } else {
-                $extensions = ['rss', 'atom'];
+                $extensions = [];
             }
         } elseif ($func == 'display') {
             if ($hasAdminAccess) {

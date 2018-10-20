@@ -77,6 +77,22 @@ abstract class AbstractAutoLinkEntity extends EntityAccess
      */
     protected $neededLink = '';
     
+    /**
+     * @ORM\Column(length=255)
+     * @Assert\NotNull()
+     * @Assert\Length(min="0", max="255")
+     * @var string $descriptionForLink
+     */
+    protected $descriptionForLink = '';
+    
+    /**
+     * @ORM\Column(type="boolean")
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $setAsterisk
+     */
+    protected $setAsterisk = false;
+    
     
     
     /**
@@ -208,6 +224,54 @@ abstract class AbstractAutoLinkEntity extends EntityAccess
     {
         if ($this->neededLink !== $neededLink) {
             $this->neededLink = isset($neededLink) ? $neededLink : '';
+        }
+    }
+    
+    /**
+     * Returns the description for link.
+     *
+     * @return string
+     */
+    public function getDescriptionForLink()
+    {
+        return $this->descriptionForLink;
+    }
+    
+    /**
+     * Sets the description for link.
+     *
+     * @param string $descriptionForLink
+     *
+     * @return void
+     */
+    public function setDescriptionForLink($descriptionForLink)
+    {
+        if ($this->descriptionForLink !== $descriptionForLink) {
+            $this->descriptionForLink = isset($descriptionForLink) ? $descriptionForLink : '';
+        }
+    }
+    
+    /**
+     * Returns the set asterisk.
+     *
+     * @return boolean
+     */
+    public function getSetAsterisk()
+    {
+        return $this->setAsterisk;
+    }
+    
+    /**
+     * Sets the set asterisk.
+     *
+     * @param boolean $setAsterisk
+     *
+     * @return void
+     */
+    public function setSetAsterisk($setAsterisk)
+    {
+        if (boolval($this->setAsterisk) !== boolval($setAsterisk)) {
+            $this->setAsterisk = boolval($setAsterisk);
         }
     }
     

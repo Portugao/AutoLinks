@@ -15,6 +15,7 @@ namespace MU\AutoLinksModule\Controller\Base;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Core\Controller\AbstractController;
 
 /**
@@ -22,4 +23,60 @@ use Zikula\Core\Controller\AbstractController;
  */
 abstract class AbstractAjaxController extends AbstractController
 {
+    
+    /**
+     * Changes a given flag (boolean field) by switching between true and false.
+     *
+     * @param Request $request Current request instance
+     *
+     * @return JsonResponse
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     */
+    public function toggleFlagAction(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+        }
+        
+        if (!$this->hasPermission('MUAutoLinksModule::Ajax', '::', ACCESS_EDIT)) {
+            throw new AccessDeniedException();
+        }
+        
+        $objectType = $request->request->getAlnum('ot', 'autoLink');
+        $field = $request->request->getAlnum('field', '');
+        $id = $request->request->getInt('id', 0);
+        
+        if ($id == 0
+            || ($objectType != 'autoLink')
+        || ($objectType == 'autoLink' && !in_array($field, ['setAsterisk']))
+        ) {
+            return $this->json($this->__('Error: invalid input.'), JsonResponse::HTTP_BAD_REQUEST);
+        }
+        
+        // select data from data source
+        $entityFactory = $this->get('mu_autolinks_module.entity_factory');
+        $repository = $entityFactory->getRepository($objectType);
+        $entity = $repository->selectById($id, false);
+        if (null === $entity) {
+            return $this->json($this->__('No such item.'), JsonResponse::HTTP_NOT_FOUND);
+        }
+        
+        // toggle the flag
+        $entity[$field] = !$entity[$field];
+        
+        // save entity back to database
+        $entityFactory->getObjectManager()->flush($entity);
+        
+        $logger = $this->get('logger');
+        $logArgs = ['app' => 'MUAutoLinksModule', 'user' => $this->get('zikula_users_module.current_user')->get('uname'), 'field' => $field, 'entity' => $objectType, 'id' => $id];
+        $logger->notice('{app}: User {user} toggled the {field} flag the {entity} with id {id}.', $logArgs);
+        
+        // return response
+        return $this->json([
+            'id' => $id,
+            'state' => $entity[$field],
+            'message' => $this->__('The setting has been successfully changed.')
+        ]);
+    }
 }

@@ -16,6 +16,8 @@
             <legend>{{ __('Content') }}</legend>
             {{ form_row(form.supportedString) }}
             {{ form_row(form.neededLink) }}
+            {{ form_row(form.descriptionForLink) }}
+            {{ form_row(form.setAsterisk) }}
         </fieldset>
         
         {% if mode != 'create' %}

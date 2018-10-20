@@ -3,6 +3,7 @@ application "AutoLinks" {
     author "Michael Ueberschaer"
     email "info@homepages-mit-zikula.de"
     url "https://homepages-mit-zikula.de"
+    version "1.0.1"
     prefix "autolinks"
     generateAccountApi false
     generateSearchApi false
@@ -15,10 +16,19 @@ application "AutoLinks" {
     generatePendingContentSupport false
     generateExternalControllerAndFinder false
     generateScribitePlugins false
+    generateRssTemplates false
+    generateAtomTemplates false
+    generateCsvTemplates false
+    generateXmlTemplates false
+    generateJsonTemplates false
+    generateKmlTemplates false
+    generateIcsTemplates false
     filterHookProvider ENABLED
     versionAllGeneratedFiles false
+    generatePoweredByBacklinksIntoFooterTemplates false
     generateTests false
     generateTechnicalDocumentation false
+    markFiles "AutoLinksModuleInstaller.php,\r\nHookProvider/FilterHooksProvider.php,\r\nResources/config/hooks.yml"
     entities {
         entity "autoLink" leading {
             nameMultiple "autoLinks"
@@ -26,6 +36,13 @@ application "AutoLinks" {
             fields {
                 string "supportedString",
                 string "neededLink"
+            ,
+                string "descriptionForLink" {
+                    mandatory false
+                },
+                boolean "setAsterisk" ajaxTogglability {
+                    mandatory false
+                }
             }
             actions {
                 mainAction "Index",
